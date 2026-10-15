@@ -1,3 +1,5 @@
+cd /home/project/tax-calculator
+cat > tekton/pipeline.yaml <<'EOF'
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -16,7 +18,7 @@ spec:
   tasks:
     - name: clone
       taskRef:
-        name: git-clone          # ClusterTask on OpenShift / Skills Network lab. Install from Tekton Hub if missing.
+        name: git-clone        # ClusterTask on OpenShift / Skills Network lab. Install from Tekton Hub if missing.
         kind: ClusterTask
       workspaces:
         - name: output
@@ -26,13 +28,26 @@ spec:
           value: $(params.repo-url)
         - name: revision
           value: $(params.branch)
-    - name: test
+
+    - name: npm-install
       runAfter: [clone]
+      taskRef:
+        name: npm
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: ARGS
+          value: install
+
+    - name: test
+      runAfter: [npm-install]
       taskRef:
         name: run-jasmine-tests
       workspaces:
         - name: source
           workspace: shared-workspace
+
     - name: build-push
       runAfter: [test]
       taskRef:
@@ -43,3 +58,8 @@ spec:
       params:
         - name: IMAGE
           value: $(params.image)
+EOF
+
+git add tekton/pipeline.yaml
+git commit -m "Add npm-install step to pipeline"
+git push
