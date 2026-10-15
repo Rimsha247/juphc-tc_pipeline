@@ -1,4 +1,3 @@
-cd /home/project/tax-calculator
 cat > tekton/pvc.yaml <<'EOF'
 apiVersion: v1
 kind: PersistentVolumeClaim
