@@ -1,0 +1,8 @@
+{
+  "name": "tax-calculator",
+  "version": "1.0.0",
+  "description": "Static Tax Calculator web app served by nginx, tested with Jasmine",
+  "scripts": { "test": "jasmine" },
+  "license": "MIT",
+  "devDependencies": { "jasmine": "^5.1.0" }
+}
