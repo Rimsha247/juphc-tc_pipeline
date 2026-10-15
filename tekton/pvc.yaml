@@ -1,10 +1,17 @@
+cd /home/project/tax-calculator
+cat > tekton/pvc.yaml <<'EOF'
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pipeline-pvc
 spec:
+  storageClassName: skills-network-learner
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+EOF
+
+kubectl apply -f tekton/pvc.yaml
+kubectl get pvc
