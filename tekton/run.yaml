@@ -7,11 +7,11 @@ spec:
     name: tax-calculator-pipeline
   params:
     - name: repo-url
-      value: https://github.com/YOUR-USERNAME/tax-calculator.git   # <-- CHANGE THIS
+      value: https://github.com/Rimsha247/tax-calculator.git
     - name: branch
       value: main
     - name: image
-      value: us.icr.io/YOUR-NAMESPACE/tax-calculator:latest         # <-- CHANGE THIS
+      value: us.icr.io/sn-labs-u23011519109/tax-calculator:latest
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
