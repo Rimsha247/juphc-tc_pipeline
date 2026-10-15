@@ -1,0 +1,17 @@
+{
+  "name": "tax-calculator",
+  "version": "1.0.0",
+  "description": "Simple Tax Calculator web app (Node.js + Express) with Jasmine tests, Docker and Tekton",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jasmine"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "jasmine": "^5.1.0"
+  }
+}

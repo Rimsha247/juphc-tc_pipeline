@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tax Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f5f9; display:flex; justify-content:center; padding:40px 16px; }
+    .card { background:#fff; max-width:420px; width:100%; padding:28px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1); }
+    h1 { margin-top:0; font-size:1.5rem; }
+    label { display:block; margin:12px 0 6px; font-weight:bold; }
+    input { width:100%; padding:10px; font-size:1rem; box-sizing:border-box; border:1px solid #bbb; border-radius:6px; }
+    button { margin-top:16px; width:100%; padding:12px; font-size:1rem; background:#0f62fe; color:#fff; border:0; border-radius:6px; cursor:pointer; }
+    button:hover { background:#0353e9; }
+    #result { margin-top:20px; line-height:1.7; }
+    .error { color:#c62828; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Tax Calculator</h1>
+    <label for="income">Annual income</label>
+    <input id="income" type="number" min="0" placeholder="e.g. 1500000" />
+    <button id="calc">Calculate tax</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    const fmt = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
+    document.getElementById('calc').addEventListener('click', async () => {
+      const income = document.getElementById('income').value;
+      const out = document.getElementById('result');
+      if (income === '') { out.innerHTML = '<span class="error">Please enter your income.</span>'; return; }
+      const res = await fetch('/api/tax?income=' + encodeURIComponent(income));
+      const data = await res.json();
+      if (!res.ok) { out.innerHTML = '<span class="error">' + data.error + '</span>'; return; }
+      out.innerHTML =
+        '<strong>Income:</strong> ' + fmt(data.income) + '<br>' +
+        '<strong>Tax:</strong> ' + fmt(data.tax) + '<br>' +
+        '<strong>Net income:</strong> ' + fmt(data.netIncome) + '<br>' +
+        '<strong>Effective rate:</strong> ' + data.effectiveRate + '%';
+    });
+  </script>
+</body>
+</html>
